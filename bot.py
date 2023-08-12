@@ -8,7 +8,7 @@ import os
 COMMANDS = ["forecast"]
 FUNCTIONS = [commands.forecast]
 
-client = discord.Client(intents=discord.Intents(messages=True, emojis=True, emojis_and_stickers=True))
+client = discord.Client(intents=discord.Intents(messages=True, message_content=True, emojis=True, emojis_and_stickers=True))
 
 @client.event
 async def on_ready():
@@ -19,7 +19,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     
-    if message.content.startswith('!avy-bot'): # all bot commands will start with !avy-bot
+    if message.content.startswith("!avy-bot"): # all bot commands will start with !avy-bot
         # split the input into the command and its arguments
         input = message.content.split(' ')
         command = input[1]
