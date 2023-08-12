@@ -10,8 +10,6 @@ FUNCTIONS = [commands.forecast]
 
 client = discord.Client(intents=discord.Intents(messages=True, emojis=True, emojis_and_stickers=True))
 
-EMOJIS = {'green': client.emojis.cache.find()}
-
 @client.event
 async def on_ready():
     print("Bot is logged in")
@@ -26,7 +24,9 @@ async def on_message(message):
         input = message.content.split(' ')
         command = input[1]
         index = COMMANDS.index(command)
-        FUNCTIONS[index](input[2], input[3]) #calls the according function
+        bot_message=FUNCTIONS[index](input[2], input[3]) #calls the according function
+
+        await message.channel.send(bot_message)
 
 
 client.run(os.getenv('SECRET_KEY'))
