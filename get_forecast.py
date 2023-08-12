@@ -18,14 +18,13 @@ def get_current_forecast(lat, long):
 
     return response.json()
 
-def decode_forecast(response):
+def build_forecast(response):
     """
     Interprets the JSON response into a readable avalanche forecast
     response: the JSON response as returned by get_current_forecast
     returns a Forecast object with the data from the response
     """
     # just want highlights until the end of the first paragraph
-    print(type(response))
     highlights = response["report"]["highlights"].split('>')[1].split('<')[0] # this is gross
     confidence = response["report"]["confidence"]["rating"]["value"]
     danger_ratings = response["report"]["dangerRatings"][0]["ratings"]
@@ -37,10 +36,11 @@ def decode_forecast(response):
     return Forecast(highlights, alpine, treeline, below_treeline, confidence)
 
 
-# driver code for testing
-lat = 50.993293
-long = -118.197407
 
-response = get_current_forecast(lat, long)
-forecast = decode_forecast(response)
-forecast.display()
+# driver code for testing
+# lat = 50.993293
+# long = -118.197407
+
+# response = get_current_forecast(lat, long)
+# forecast = build_forecast(response)
+# forecast.display()
