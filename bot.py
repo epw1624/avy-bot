@@ -1,33 +1,42 @@
-# bot actions related to interaction with the server go here
-# this file acts as an interface between the server and commands.py
+class Bot:
+    def __init__(self, lat, long):
+        """
+        initialize a Bot instance with the home coordinates set to (lat, long)
+        """
+        self.home_lat = lat
+        self.home_long = long
+        self.home_set = True
+        
+    def __init__(self):
+        """
+        initialize a Bot instance without home coordinates
+        """
+        self.home_set = False
+        self.home_lat = 0
+        self.home_long = 0
 
-import discord
-import commands
-import os
+    def set_home(self, lat, long):
+        """
+        set the home coordinates for this bot instance
+        """
+        self.home_lat = lat
+        self.home_long = long
+        self.home_set = True
 
-COMMANDS = ["forecast"]
-FUNCTIONS = [commands.forecast]
+    def clear_home(self):
+        """
+        reset the Bot instance to have no home coordinates
+        """
+        self.home_set = False
 
-client = discord.Client(intents=discord.Intents(messages=True, message_content=True, emojis=True, emojis_and_stickers=True))
-
-@client.event
-async def on_ready():
-    print("Bot is logged in")
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+    def get_lat(self):
+        """
+        Getter method for the home latitude field
+        """
+        return self.home_lat
     
-    if message.content.startswith("!avy-bot"): # all bot commands will start with !avy-bot
-        # split the input into the command and its arguments
-        input = message.content.split(' ')
-        command = input[1]
-        index = COMMANDS.index(command)
-        bot_message=FUNCTIONS[index](input[2], input[3]) #calls the according function
-
-        await message.channel.send(bot_message)
-
-
-client.run(os.getenv('SECRET_KEY'))
-
+    def get_long(self):
+        """
+        Getter method for the home longitude field
+        """
+        return self.home_long
